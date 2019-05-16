@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class scp_Scipts : MonoBehaviour
 {
+    [SerializeField] float moveSpeed = 10f;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +16,20 @@ public class scp_Scipts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Move();
+    }
+
+    private void Move()
+    {
+        //Define x controls
+        var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+        var newXPos = transform.position.x + deltaX;
         
+        //Define y controls
+        var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+        var newYPos = transform.position.y + deltaY;
+
+        //Update position using new variables
+        transform.position = new Vector2(newXPos, newYPos);
     }
 }
