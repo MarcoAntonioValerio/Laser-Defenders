@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class scp_Player : MonoBehaviour
 {
+    //Values 
     float xMin;
     float xMax;
     float yMin;
