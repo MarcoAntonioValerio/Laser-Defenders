@@ -5,16 +5,24 @@ using UnityEngine;
 
 public class scp_Player : MonoBehaviour
 {
-    //Values 
+    //Configuration parameters
     float xMin;
     float xMax;
     float yMin;
     float yMax;
 
-    //Serialized for debugging
+    bool isDestroyed = false;
+
+    [SerializeField] float countdown = 3f;
+
+    [SerializeField][Range(10f,50f)]float projectileSpeed = 10f; //Serialized for testing
+
     [SerializeField] [Range(0f,10f)] float xPadding = 1f;
     [SerializeField] [Range(0f,10f)] float yPadding = 1f;
     [SerializeField] [Range(0.1f, 30f)] float moveSpeed = 10f;
+
+    
+    [SerializeField] GameObject laserPrefab;
 
 
     // Start is called before the first frame update
@@ -25,13 +33,35 @@ public class scp_Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        SetupMoveBoundaries();
+    {        
         Move();
+        Fire();
+        
     }
 
+    public void Fire()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            //Projectile will spawn in front of ship with this Vector 2
+            Vector3 laserStartingPositionVector = 
+                new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            
+            //This will create the projectiles
+            GameObject laser =  Instantiate(laserPrefab,laserStartingPositionVector,
+                                Quaternion.identity) as GameObject;
 
+            //Disable gravity,and all other useless things, and then apply force to the bullet
+            laser.GetComponent<Rigidbody2D>().gravityScale = 0;
+            laser.GetComponent<Rigidbody2D>().drag = 0;
+            laser.GetComponent<Rigidbody2D>().angularDrag = 0;
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
 
+            //Destroy bullet
+            
+        }
+    }
+    
     private void Move()
     {
         //Setting up controls on y and x
@@ -49,6 +79,8 @@ public class scp_Player : MonoBehaviour
         //Update position using new variables
         transform.position = new Vector2(newXPos, newYPos);
     }
+
+    
 
     private void SetupMoveBoundaries()
     {
