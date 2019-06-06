@@ -12,7 +12,7 @@ public class scp_Player : MonoBehaviour
     float yMax;
 
     
-    bool isDestroyed = false;
+    //bool isDestroyed = false;
 
     Coroutine fireCoroutine;
 

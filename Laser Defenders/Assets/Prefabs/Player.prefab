@@ -92,6 +92,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e446392be7ea104889870c73ac716d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countdown: 2
+  projectileSpeed: 25
   xPadding: 0.8
   yPadding: 0.6
   moveSpeed: 10
+  projectileFiringPeriod: 0.1
+  laserPrefab: {fileID: 4472451815826222101, guid: 2a61aa2c3dabb58459d9326d3134a2bc,
+    type: 3}
