@@ -11,17 +11,17 @@ public class scp_Player : MonoBehaviour
     float yMin;
     float yMax;
 
+    
     bool isDestroyed = false;
 
-    [SerializeField] float countdown = 3f;
+    Coroutine fireCoroutine;
 
+    [SerializeField] public float countdown = 2f;
     [SerializeField][Range(10f,50f)]float projectileSpeed = 10f; //Serialized for testing
-
     [SerializeField] [Range(0f,10f)] float xPadding = 1f;
     [SerializeField] [Range(0f,10f)] float yPadding = 1f;
     [SerializeField] [Range(0.1f, 30f)] float moveSpeed = 10f;
-
-    
+    [SerializeField] float projectileFiringPeriod = 0.1f;
     [SerializeField] GameObject laserPrefab;
 
 
@@ -37,31 +37,52 @@ public class scp_Player : MonoBehaviour
         Move();
         Fire();
         
+        
     }
+
+    
 
     public void Fire()
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            fireCoroutine = StartCoroutine(FireContinuosly());
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {            
+            StopCoroutine(fireCoroutine);
+        }
+    }
+
+    IEnumerator FireContinuosly()
+    {
+        while (true)
+        {
             //Projectile will spawn in front of ship with this Vector 2
-            Vector3 laserStartingPositionVector = 
+            Vector3 laserStartingPositionVector =
                 new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
-            
-            //This will create the projectiles
-            GameObject laser =  Instantiate(laserPrefab,laserStartingPositionVector,
+
+
+            //This will create one projectiles
+            GameObject laser = Instantiate(laserPrefab, laserStartingPositionVector,
                                 Quaternion.identity) as GameObject;
 
-            //Disable gravity,and all other useless things, and then apply force to the bullet
+        //Disable gravity,and all other useless things, and then apply force to the bullet
             laser.GetComponent<Rigidbody2D>().gravityScale = 0;
             laser.GetComponent<Rigidbody2D>().drag = 0;
             laser.GetComponent<Rigidbody2D>().angularDrag = 0;
             laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
 
-            //Destroy bullet
+            
+            yield return new WaitForSeconds(projectileFiringPeriod);
+
             
         }
+
+        
+        
     }
-    
+
     private void Move()
     {
         //Setting up controls on y and x
@@ -80,6 +101,7 @@ public class scp_Player : MonoBehaviour
         transform.position = new Vector2(newXPos, newYPos);
     }
 
+    
     
 
     private void SetupMoveBoundaries()
