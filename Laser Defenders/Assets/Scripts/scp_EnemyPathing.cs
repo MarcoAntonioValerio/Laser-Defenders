@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class scp_EnemyPathing : MonoBehaviour
 {
-    [SerializeField] scp_WaveScriptableObject waveConfig;
-    List<Transform> waypoints;
-    [SerializeField]float moveSpeed = 2f;
+    scp_WaveScriptableObject waveConfig;
+    List<Transform> waypoints;    
     int waypointIndex = 0;
 
     // Start is called before the first frame update
@@ -22,13 +21,18 @@ public class scp_EnemyPathing : MonoBehaviour
         EnemyShipMovement();
     }
 
+    public void SetWaveConfig(scp_WaveScriptableObject waveConfig)
+    {
+        this.waveConfig = waveConfig;
+    }
+
     private void EnemyShipMovement()
     {
         //.Count in list, instead of array's .Lenght, since list starts at 0, we subtract 1 from the total
         if (waypointIndex <= waypoints.Count - 1)
         {
             var targetPosition = waypoints[waypointIndex].transform.position;
-            var movementThisFrame = moveSpeed * Time.deltaTime;
+            var movementThisFrame = waveConfig.GetMoveSpeed()* Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementThisFrame);
 
             //adding one to the waypointsIndex every time it reach a waypoints

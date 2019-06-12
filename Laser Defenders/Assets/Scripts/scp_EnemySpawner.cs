@@ -5,14 +5,40 @@ using UnityEngine;
 public class scp_EnemySpawner : MonoBehaviour
 {
     [SerializeField] List<scp_WaveScriptableObject> waveConfig;
-    int startingWave = 0;
+    [SerializeField]int startingWave = 0;
+    [SerializeField] bool looping = false;
    
 
-    // Start is called before the first frame update
-    void Start()
+    // Start is a coroutine now, will execute once, and then will loop if looping is true.
+    IEnumerator Start()
     {
-        var currentWave = waveConfig[startingWave];
-        StartCoroutine(SpawnAllEnemiesInWaves(currentWave));
+
+        do
+        {
+            yield return StartCoroutine(SpawnAllWaves());
+        }
+        while (looping);
+        
+    }
+
+
+    /*This coroutine will call the sub coroutine at every iteration of its loop
+      making sure that every waves will spawn.*/
+    private IEnumerator SpawnAllWaves()
+    {
+        /*The for loop creates a new variable(waveIndex), that is equal to startingWave. 
+         *if waveIndex is lower than the waveConfig.count, add one to waveIndex after 
+          the statement run.*/
+        for (int waveIndex = startingWave; waveIndex < waveConfig.Count; waveIndex++)
+        {
+            /*The variable of type scp_WaveScriptableObject will be equal to the list, 
+              specifically taking waveIndex as a parameter.*/
+            var currentWave = waveConfig[waveIndex];
+
+            //Wait 3 seconds, then start the "sub" coroutine everytime the loop starts.
+            yield return new WaitForSeconds(3);
+            yield return StartCoroutine(SpawnAllEnemiesInWaves(currentWave));
+        }
     }
 
     private IEnumerator SpawnAllEnemiesInWaves(scp_WaveScriptableObject waveConfig)
@@ -20,10 +46,11 @@ public class scp_EnemySpawner : MonoBehaviour
         Debug.Log("Coroutine started");        
         for (int enemyCount = 0; enemyCount < waveConfig.GetNumberOfEnemies(); enemyCount++)
         {
-            Instantiate(
+            var newEnemy = Instantiate(
                         waveConfig.GetEnemyPrefab(),
                         waveConfig.GetWaypoints()[0].transform.position,
                         Quaternion.identity);
+            newEnemy.GetComponent<scp_EnemyPathing>().SetWaveConfig(waveConfig);
             yield return new WaitForSeconds(waveConfig.GetTimesBetweenSpawns());
         }
     }

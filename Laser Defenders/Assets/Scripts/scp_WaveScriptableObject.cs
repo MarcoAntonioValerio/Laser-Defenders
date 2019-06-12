@@ -7,7 +7,7 @@ public class scp_WaveScriptableObject : ScriptableObject
 {
     [SerializeField] GameObject enemyPrefab;
     [SerializeField] GameObject pathPrefab;
-    [SerializeField] public float timesBetweenSpawns = 0.5f;
+    [SerializeField] float timesBetweenSpawns = 0.5f;
     [SerializeField] float spawnRandomFactor = 0.3f;
     [SerializeField] public int numberOfEnemies = 10;
     [SerializeField] float moveSpeed = 2f;
