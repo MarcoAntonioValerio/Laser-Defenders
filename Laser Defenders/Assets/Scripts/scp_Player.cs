@@ -66,6 +66,7 @@ public class scp_Player : MonoBehaviour
     {
         
         scp_DamageDealer damageDealer = other.gameObject.GetComponent<scp_DamageDealer>();
+        if (!damageDealer) { return; }
         ProcessHit(damageDealer);
 
     }

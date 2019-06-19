@@ -50,6 +50,7 @@ public class scp_Enemy : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         scp_DamageDealer damageDealer = other.gameObject.GetComponent<scp_DamageDealer>();
+        if (!damageDealer) { return; }
         ProcessHit(damageDealer);
 
     }
