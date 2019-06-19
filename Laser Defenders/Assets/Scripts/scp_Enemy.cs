@@ -12,6 +12,10 @@ public class scp_Enemy : MonoBehaviour
 
     [SerializeField] GameObject projectile;
     [SerializeField] float projectileSpeed = 1f;
+    [SerializeField] GameObject deathVfx;
+    [SerializeField] float durationOfExplosion = 1f;
+
+
 
 
     private void Start()
@@ -61,7 +65,15 @@ public class scp_Enemy : MonoBehaviour
         damageDealer.Hit();
         if (health <= 0f)
         {
-            Destroy(gameObject);
+            Death();
+
         }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
+        GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
+        Destroy(explosion, durationOfExplosion);
     }
 }

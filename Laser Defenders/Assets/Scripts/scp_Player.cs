@@ -21,7 +21,8 @@ public class scp_Player : MonoBehaviour
 
     [Header("Health Settings")]
     [SerializeField] float playerHealth = 500f;
-   
+    [SerializeField] GameObject deathVfx;
+    [SerializeField] float durationOfExplosion = 1f;
 
     [Header("Projectiles Settings")]
     [SerializeField] [Range(10f, 50f)] float projectileSpeed = 10f; //Serialized for testing
@@ -77,8 +78,15 @@ public class scp_Player : MonoBehaviour
         damageDealer.Hit();
         if (playerHealth <= 0f)
         {
-            Destroy(gameObject);
+            Death();
         }
+    }
+
+    private void Death()
+    {
+        Destroy(gameObject);
+        GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
+        Destroy(explosion, durationOfExplosion);
     }
 
     IEnumerator FireContinuosly()

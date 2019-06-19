@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f6cabac30bb51b74c85ef7772bb6ad6c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6415094, g: 0.20879316, b: 0.20879316, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,6 +101,9 @@ MonoBehaviour:
   projectile: {fileID: 6753341979624054613, guid: d7d7a9dde43b88c459d7ba466a631627,
     type: 3}
   projectileSpeed: 10
+  deathVfx: {fileID: 6785351930754750360, guid: 8fa76e68c65d2b2498c891ce0a51d521,
+    type: 3}
+  durationOfExplosion: 1
 --- !u!114 &1028336087541672746
 MonoBehaviour:
   m_ObjectHideFlags: 0
