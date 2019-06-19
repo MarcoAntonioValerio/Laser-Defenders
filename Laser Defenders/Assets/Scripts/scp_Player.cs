@@ -64,6 +64,7 @@ public class scp_Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         scp_DamageDealer damageDealer = other.gameObject.GetComponent<scp_DamageDealer>();
         ProcessHit(damageDealer);
 
@@ -72,6 +73,7 @@ public class scp_Player : MonoBehaviour
     private void ProcessHit(scp_DamageDealer damageDealer)
     {
         playerHealth -= damageDealer.GetDamage();
+        damageDealer.Hit();
         if (playerHealth <= 0f)
         {
             Destroy(gameObject);

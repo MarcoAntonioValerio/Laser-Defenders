@@ -14,11 +14,8 @@ public class scp_DamageDealer : MonoBehaviour
 
     public void Hit()
     {
-        //Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         Destroy(gameObject);
     }
+
+  
 }

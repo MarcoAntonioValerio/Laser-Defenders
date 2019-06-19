@@ -57,6 +57,7 @@ public class scp_Enemy : MonoBehaviour
     private void ProcessHit(scp_DamageDealer damageDealer)
     {
         health -= damageDealer.GetDamage();
+        damageDealer.Hit();
         if (health <= 0f)
         {
             Destroy(gameObject);
