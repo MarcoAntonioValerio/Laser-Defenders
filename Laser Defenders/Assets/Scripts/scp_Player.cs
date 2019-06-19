@@ -30,8 +30,11 @@ public class scp_Player : MonoBehaviour
     [SerializeField] GameObject laserPrefab;
     [SerializeField] public float countdown = 2f;
 
-    
-    
+    [Header("Audio")]
+    [SerializeField] AudioClip explosion;
+    [SerializeField] AudioClip fire;
+    private AudioSource source;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +87,7 @@ public class scp_Player : MonoBehaviour
 
     private void Death()
     {
+        
         Destroy(gameObject);
         GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
         Destroy(explosion, durationOfExplosion);
