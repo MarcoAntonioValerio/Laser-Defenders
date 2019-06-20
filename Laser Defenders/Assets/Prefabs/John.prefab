@@ -104,6 +104,10 @@ MonoBehaviour:
   deathVfx: {fileID: 6785351930754750360, guid: 8fa76e68c65d2b2498c891ce0a51d521,
     type: 3}
   durationOfExplosion: 1
+  fireSounds: {fileID: 8300000, guid: 665c3d14eb1c9284e90afa74cf53f36a, type: 3}
+  explosionSounds: {fileID: 8300000, guid: 1e668cdd10082bf4fb3c14f7625b32a2, type: 3}
+  fireVolumeSlider: 1
+  explosionVolume: 1
 --- !u!114 &1028336087541672746
 MonoBehaviour:
   m_ObjectHideFlags: 0

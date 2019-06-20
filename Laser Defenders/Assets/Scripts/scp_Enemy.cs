@@ -15,8 +15,11 @@ public class scp_Enemy : MonoBehaviour
     [SerializeField] GameObject deathVfx;
     [SerializeField] float durationOfExplosion = 1f;
 
-
-
+    [SerializeField] AudioClip fireSounds;
+    [SerializeField] AudioClip explosionSounds;
+    [Range(0f, 1f)] [SerializeField] float fireVolumeSlider = 0.5f;
+    [SerializeField] float explosionVolume = 1f;
+    private AudioSource audioSource;
 
     private void Start()
     {
@@ -38,8 +41,10 @@ public class scp_Enemy : MonoBehaviour
         if (shotCounter <= 0)
         {
             Fire();
+            
             shotCounter = UnityEngine.Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
         }
+        
     }
 
     private void Fire()
@@ -49,6 +54,8 @@ public class scp_Enemy : MonoBehaviour
 
         GameObject laser = Instantiate (projectile, laserStartingPosition, Quaternion.identity) as GameObject;
         laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -projectileSpeed);
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -66,7 +73,7 @@ public class scp_Enemy : MonoBehaviour
         if (health <= 0f)
         {
             Death();
-
+            AudioSource.PlayClipAtPoint(fireSounds, Camera.main.transform.position, fireVolumeSlider);
         }
     }
 
@@ -75,5 +82,32 @@ public class scp_Enemy : MonoBehaviour
         Destroy(gameObject);
         GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
         Destroy(explosion, durationOfExplosion);
+        ExplosionSound();
+    }
+
+    private void AudioPlayer()
+    {
+        Debug.Log("AudioPlayer() is firing.");
+        //Get the AudioSource
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    private void ExplosionSound()
+    {
+        Debug.Log("ExpolsionSound() fired");
+        //Play the sounds        
+        AudioSource.PlayClipAtPoint(explosionSounds, Camera.main.transform.position, explosionVolume);
+
+    }
+
+    private void FireSound()
+    {
+        //Change the pitch of the sound on a Random Range between 0.1/1
+        audioSource.pitch = (UnityEngine.Random.Range(0.7f, 1f));
+        //Play the sounds        
+        AudioSource.PlayClipAtPoint(fireSounds, Camera.main.transform.position, fireVolumeSlider);
+
+
+
     }
 }

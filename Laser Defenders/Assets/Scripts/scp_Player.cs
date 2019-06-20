@@ -10,8 +10,8 @@ public class scp_Player : MonoBehaviour
     float xMin;
     float xMax;
     float yMin;
-    float yMax;    
-
+    float yMax;
+    private AudioSource audioSource;
     Coroutine fireCoroutine;   
        
     [Header("Player Movement")]    
@@ -31,15 +31,16 @@ public class scp_Player : MonoBehaviour
     [SerializeField] public float countdown = 2f;
 
     [Header("Audio")]
-    [SerializeField] AudioClip explosion;
-    [SerializeField] AudioClip fire;
-    private AudioSource source;
-
+    [SerializeField] AudioClip fireSounds;
+    [SerializeField] AudioClip explosionSounds;
+    [Range(0f, 1f)] [SerializeField] float fireVolumeSlider = 0.5f;
+    [SerializeField] float explosionVolume = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
         SetupMoveBoundaries();
+        AudioPlayer();
         
     }  
 
@@ -58,6 +59,7 @@ public class scp_Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
+                        
             fireCoroutine = StartCoroutine(FireContinuosly());
         }
         if (Input.GetButtonUp("Fire1"))
@@ -80,23 +82,26 @@ public class scp_Player : MonoBehaviour
         playerHealth -= damageDealer.GetDamage();
         damageDealer.Hit();
         if (playerHealth <= 0f)
-        {
+        {            
             Death();
         }
     }
 
     private void Death()
     {
-        
+        Debug.Log("Death");       
         Destroy(gameObject);
         GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
-        Destroy(explosion, durationOfExplosion);
+        Destroy(explosion, durationOfExplosion);        
+        ExplosionSound();
     }
 
     IEnumerator FireContinuosly()
     {
         while (true)
         {
+            FireSound();
+            
             //Projectile will spawn in front of ship with this Vector 2
             Vector3 laserStartingPositionVector =
                 new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
@@ -140,6 +145,31 @@ public class scp_Player : MonoBehaviour
         transform.position = new Vector2(newXPos, newYPos);
     }    
     
+    private void AudioPlayer()
+    {
+        Debug.Log("AudioPlayer() is firing.");
+        //Get the AudioSource
+        audioSource = GetComponent<AudioSource>();        
+    }
+
+    private void ExplosionSound()
+    {
+        Debug.Log("ExpolsionSound() fired");
+        //Play the sounds        
+        AudioSource.PlayClipAtPoint(explosionSounds,Camera.main.transform.position, explosionVolume);
+        
+    }
+
+    private void FireSound()
+    {
+        //Change the pitch of the sound on a Random Range between 0.1/1
+        audioSource.pitch = (UnityEngine.Random.Range(0.7f, 1f));
+        //Play the sounds        
+        AudioSource.PlayClipAtPoint(fireSounds, Camera.main.transform.position, fireVolumeSlider);
+        
+        
+        
+    }
 
     private void SetupMoveBoundaries()
     {
