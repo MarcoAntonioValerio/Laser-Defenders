@@ -99,7 +99,8 @@ public class scp_Enemy : MonoBehaviour
     private void ExplosionSound()
     {
         Debug.Log("ExpolsionSound() fired");
-        //Play the sounds        
+        //Play the sounds       
+        
         AudioSource.PlayClipAtPoint(explosionSounds, Camera.main.transform.position, explosionVolume);
 
     }

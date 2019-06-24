@@ -11,6 +11,7 @@ public class scp_BackgroudScroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         myMaterial = GetComponent<Renderer>().material;
         offset = new Vector2(0f, ScrollSpeed);
     }
