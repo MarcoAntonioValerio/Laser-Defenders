@@ -55,7 +55,8 @@ public class scp_Enemy : MonoBehaviour
         GameObject laser = Instantiate (projectile, laserStartingPosition, Quaternion.identity) as GameObject;
         laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, -projectileSpeed);
 
-        
+
+        FireSound();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -73,7 +74,10 @@ public class scp_Enemy : MonoBehaviour
         if (health <= 0f)
         {
             Death();
-            AudioSource.PlayClipAtPoint(fireSounds, Camera.main.transform.position, fireVolumeSlider);
+
+            ExplosionSound();
+            
+            
         }
     }
 
@@ -102,12 +106,8 @@ public class scp_Enemy : MonoBehaviour
 
     private void FireSound()
     {
-        //Change the pitch of the sound on a Random Range between 0.1/1
-        audioSource.pitch = (UnityEngine.Random.Range(0.7f, 1f));
-        //Play the sounds        
-        AudioSource.PlayClipAtPoint(fireSounds, Camera.main.transform.position, fireVolumeSlider);
-
-
-
+        var source = GetComponent<AudioSource>();
+        source.pitch = UnityEngine.Random.Range(0.8f, 1f);
+        source.PlayOneShot(fireSounds, 0.1f);
     }
 }
