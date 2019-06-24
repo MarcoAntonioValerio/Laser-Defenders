@@ -11,7 +11,7 @@ public class scp_SceneLoader : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(currentSceneIndex + 1);
+        SceneManager.LoadScene(currentSceneIndex + 1);        
     }
 
     public void LoadStartScene()
@@ -23,5 +23,10 @@ public class scp_SceneLoader : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void LoadSpecificScene(string level)
+    {
+        SceneManager.LoadScene(level);
     }
 }

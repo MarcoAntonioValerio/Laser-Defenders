@@ -89,11 +89,17 @@ public class scp_Player : MonoBehaviour
 
     private void Death()
     {
-        Debug.Log("Death");       
         Destroy(gameObject);
         GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
-        Destroy(explosion, durationOfExplosion);        
+        Destroy(explosion, durationOfExplosion);
         ExplosionSound();
+        LoagGameOverScene();
+    }
+
+    private static void LoagGameOverScene()
+    {
+        var loader = FindObjectOfType<scp_SceneLoader>();
+        loader.LoadSpecificScene("scn_GameOver");
     }
 
     IEnumerator FireContinuosly()
@@ -126,6 +132,8 @@ public class scp_Player : MonoBehaviour
         
         
     }
+
+
 
     private void Move()
     {
