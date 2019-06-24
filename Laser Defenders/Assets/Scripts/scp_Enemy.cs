@@ -5,32 +5,37 @@ using UnityEngine;
 
 public class scp_Enemy : MonoBehaviour
 {
-    [SerializeField] float health = 500f;
+    [Header("Initialising Settings")]
+    [SerializeField] public float health = 500f;
     [SerializeField] float shotCounter;
     [SerializeField] float minTimeBetweenShots = 3f;
     [SerializeField] float maxTimeBetweenShots = 10f;
-
+    [Header("Projectiles Settings")]
     [SerializeField] GameObject projectile;
     [SerializeField] float projectileSpeed = 1f;
     [SerializeField] GameObject deathVfx;
     [SerializeField] float durationOfExplosion = 1f;
-
+    [Header("Audio Settings")]
     [SerializeField] AudioClip fireSounds;
     [SerializeField] AudioClip explosionSounds;
     [Range(0f, 1f)] [SerializeField] float fireVolumeSlider = 0.5f;
-    [SerializeField] float explosionVolume = 1f;
+    [SerializeField] float explosionVolume = 1f;    
     private AudioSource audioSource;
+    [Header("Score Settings")]
+    [SerializeField] float scorePointsEachSpaceship = 1234f;
+    scp_GameManager gameMan;
+    
 
     private void Start()
     {
         shotCounter = UnityEngine.Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
-
+        gameMan = FindObjectOfType<scp_GameManager>();
     }
 
     private void Update()
     {
         CountDownAndShoot();
-        Debug.Log(health);
+        Debug.Log(health);        
     }
 
  
@@ -40,8 +45,7 @@ public class scp_Enemy : MonoBehaviour
         shotCounter -= Time.deltaTime;
         if (shotCounter <= 0)
         {
-            Fire();
-            
+            Fire();            
             shotCounter = UnityEngine.Random.Range(minTimeBetweenShots, maxTimeBetweenShots);
         }
         
@@ -73,12 +77,16 @@ public class scp_Enemy : MonoBehaviour
         damageDealer.Hit();
         if (health <= 0f)
         {
-            Death();
-
+            Death();            
             ExplosionSound();
-            
+            AddToScore();
             
         }
+    }
+
+    private void AddToScore()
+    {
+        gameMan.totalScore += scorePointsEachSpaceship;
     }
 
     private void Death()
@@ -87,6 +95,7 @@ public class scp_Enemy : MonoBehaviour
         GameObject explosion = Instantiate(deathVfx, transform.position, transform.rotation);
         Destroy(explosion, durationOfExplosion);
         ExplosionSound();
+        
     }
 
     private void AudioPlayer()
